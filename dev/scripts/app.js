@@ -19,10 +19,18 @@ class App extends React.Component {
  constructor() {
    super();
    this.state = {
-     loggedIn: false
+     loggedIn: false,
+     formName: '',
+     formLocation:'',
+     formField:'',
+     formDate:'',
+     formMin:'',
+     formMax:''
    }
    this.googleAuthentication = this.googleAuthentication.bind(this);
    this.signOut = this.signOut.bind(this);
+   this.handleChange = this.handleChange.bind(this);
+   this.addGame = this.addGame.bind(this);
  }
 
   componentDidMount() {
@@ -68,13 +76,34 @@ class App extends React.Component {
     });
   }
 
+handleChange (event){
+  // console.log(event.target.id);
+  this.setState({
+    [event.target.id]: event.target.value
+  });
+}
 
+addGame (event) {
+  event.preventDefault();
+  // console.log('gamee added');
+  const newGame = {
+    name: this.state.formName,
+    location: this.state.formLocation,
+    date: this.state.formDate,
+    field: this.state.formField,
+    min: this.state.formMin,
+    max: this.state.formMax
+  }
+  const userID = firebase.auth().currentUser.uid;
+  const dbref = firebase.database().ref(`users/${userID}/games`);
+  dbref.push(newGame);
+}
 
 
     render() {
       return (
         <div>
-          <GameInput />
+          <GameInput  handleChange = {this.handleChange} addGame={this.addGame} />
           <Login data = {this.state} googleAuthentication = {this.googleAuthentication} signOut = {this.signOut} />
         </div>
       )
