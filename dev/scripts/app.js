@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom';
 import GameInput from './gameInput';
 import Login from './login';
 
+var config = {
+  apiKey: "AIzaSyB0oycxIH4l6RgeWVwSdhIzrqVrnw_HVAs",
+  authDomain: "fancy-feet.firebaseapp.com",
+  databaseURL: "https://fancy-feet.firebaseio.com",
+  projectId: "fancy-feet",
+  storageBucket: "fancy-feet.appspot.com",
+  messagingSenderId: "620852386300"
+};
+firebase.initializeApp(config);
 
 
 class App extends React.Component {
@@ -15,6 +24,22 @@ class App extends React.Component {
    this.googleAuthentication = this.googleAuthentication.bind(this);
    this.signOut = this.signOut.bind(this);
  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          loggedIn: true,
+          user: user
+        })
+      }
+      else {
+        this.setState({
+          loggedIn: false
+        })
+      }
+    })
+  }
 
   /**
    * Signs the user in with google authentication
@@ -50,7 +75,7 @@ class App extends React.Component {
       return (
         <div>
           <GameInput />
-          <Login data = {this.state}/>
+          <Login data = {this.state} googleAuthentication = {this.googleAuthentication} signOut = {this.signOut} />
         </div>
       )
     }
