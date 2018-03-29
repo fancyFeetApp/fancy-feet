@@ -4,20 +4,19 @@ class GameInput extends React.Component {
 	render() {
 		return <div className="inputForm">
 				<h2>Match  Setup</h2>
-				<form className="match-setup">
+				<form className="match-setup" onSubmit={this.props.addGame}>
 					<p>Enter Match Name</p>
-					<input name="name" type="text" placeholder="Match Name" />
+					<input id='formName' name="name" type="text" placeholder="Match Name" onChange={this.props.handleChange} />
 					<p>Enter Match Location</p>
-					<input name="location" type="text" placeholder="Match Location" />
+					<input id='formLocation' name="location" type="text" placeholder="Match Location" onChange={this.props.handleChange} />
 					<p>Enter Field information</p>
-					<input name="field" type="text" placeholder="field" />
+					<input id='formField' name="field" type="text" placeholder="field" onChange={this.props.handleChange} />
 					<p>Select a match date</p>
-					<input name="date" type="date" />
+					<input id='formDate' name="date" type="date" onChange={this.props.handleChange} />
 					<p>Team Size</p>
-					<input name="minPlayer" type="text" placeholder="Min" />
-					<input name="maxPlayer" type="text" placeholder="Max" />
-
-					<button type="submit"> Add Game</button>
+					<input id='formMin' name="minPlayer" type="number" min='7' placeholder="Min" onChange={this.props.handleChange} />
+					<input id='formMax' name="maxPlayer" type="number" max='30' placeholder="Max" onChange={this.props.handleChange} />
+					<button type="submit" > Add Game</button>
 				</form>
 			</div>;
 	}
